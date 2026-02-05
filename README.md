@@ -17,7 +17,7 @@ $trunk->drawTree();                  # dray tree draws a tree
 This one is just another **Experimental** one designed to be easy to reconfigure, serialise, deserialise or view. Another feature is the integration of weighted nodes. Interactive traversal is a goal, with a popularity value applied to nodes to assist this. Traversal is plenned in the future to be diffuse rather than absolute.
 
 
-This is a single module, that represents the root, the forks and the leafs
+This is a single module, that represents the root, the forks, the leafs in fact the entire tree is itself a Node.
 * A Root is a Node object.
 * A Node objects may have other Node objects as children.
 * The Nodes have names for display purposes.
