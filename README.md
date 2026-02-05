@@ -30,3 +30,42 @@ This is a single module, that represents the root, the forks, the leafs in fact 
 * A Node can be visualised as a tree on the console, as nested lists in HTML, and converted to xml.
 
 
+## Methods
+
+`new`
+   
+`addChild`
+   
+`name`
+   
+`child`
+   
+`parameter`
+   
+`childByName`
+   
+`childrenByName`
+   
+`hide`
+   
+`deleteChild`
+   
+`children`
+   
+`group`
+   
+`ungroup`
+   
+`list`
+   
+`drawTree`
+   
+`text`
+   
+`setPaths`
+   
+`serialis`
+     
+`deserialise`
+
+
