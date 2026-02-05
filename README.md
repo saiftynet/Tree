@@ -3,13 +3,15 @@ There are plenty of mature tree modules on MetaCPAN. [Tree::Simple](https://meta
 
 ### Synopsis
 ```
-use Node;                                           # Node.pm is not on CPAN. It is experimental
-my $noname=new Node({name=>"name"});
-my $trunk=new Node("Trunk");
-$trunk->addChild(qw/mammal reptile bird insect fish mollusc miriapod crustacea/);# new takes either a string
+# Node.pm is not on CPAN. It is experimental
+use Node;      
+my $noname=new Node({name=>"name"});  # new takes either a string
+my $trunk=new Node("Trunk");          # or a NODE object
+$trunk->addChild(qw/mammal reptile bird
+                 insect fish mollusc miriapod crustacea/);
 my $testNode=new Node("nematode");
-$trunk->addChild($testNode);                                                     # or a NODE object
-$trunk->drawTree();
+$trunk->addChild($testNode);         # addChild takes strings, arrayor strings ornodes                                                 
+$trunk->drawTree();                  # dray tree draws a tree
 ```
 
 This one is just another **Experimental** one designed to be easy to reconfigure, serialise, deserialise or view. Another feature is the integration of weighted nodes. Interactive traversal is a goal, with a popularity value applied to nodes to assist this. Traversal is plenned in the future to be diffuse rather than absolute.
