@@ -12,34 +12,6 @@ $trunk->addChild($testNode);                                                    
 $trunk->drawTree();
 ```
 
-print  map {$_." : ".$trunk->{branches}->{$_}->name()."\n"} sort $trunk->children();
-$trunk->deleteChild($trunk->{prefix}.2);
-print map {$_." : ".$trunk->{branches}->{$_}->name()."\n"} sort $trunk->children();
-print "\n";
-$trunk->drawTree();
-$trunk->{branches}->{$trunk->childByName("insect")}->addChild("ant");
-$trunk->groupChildren("exoskeleton",$trunk->childrenByNames(qw/insect miriapod crustacea/));
-print  map {$_." : ".$trunk->{branches}->{$_}->name()."\n"} sort $trunk->children();
-print  map {$_." : ".$trunk->{branches}->{$trunk->{prefix}.9}->{branches}->{$_}->name()."\n"} sort @{$trunk->{branches}->{$trunk->{prefix}.9}->children("#id")};
-
-print "\n";
-print $trunk->childByName("exoskeleton"),"\n";
-
-print "\n";
-$trunk->drawTree("i");
-print "\n";
-$trunk->list();
-print "\n";
-my $str= $trunk->serialise();
-
-print "\n";
-print $str;
-print "\n";
-my $clone=Node->deserialise($str);
-$clone->drawTree("p");
-
-
-
 This one is just another **Experimental** one designed to be easy to reconfigure, serialise, deserialise or view. Another feature is the integration of weighted nodes. Interactive traversal is a goal, with a popularity value applied to nodes to assist this. Traversal is plenned in the future to be diffuse rather than absolute.
 
 
