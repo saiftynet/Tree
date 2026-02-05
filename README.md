@@ -1,6 +1,44 @@
 # Interactive Tree Module
 There are plenty of mature tree modules on MetaCPAN. [Tree::Simple](https://metacpan.org/pod/Tree::Simple) by [Ron Savage](https://github.com/ronsavage) a good robust one to start. [Tree::MultiNode](https://metacpan.org/pod/Tree::MultiNode) by [Todd Rinaldo](https://www.linkedin.com/in/toddrinaldo) and [Tree::DAG_Node](https://metacpan.org/pod/Tree::DAG_Node) established heavyweights.  A good description  of these and many others are provided by Ron Savage in the [pod](https://metacpan.org/pod/Tree::Simple) of his module.
 
+### Synopsis
+```
+use Node;                                           # Node.pm is not on CPAN. It is experimental
+my $noname=new Node({name=>"name"});
+my $trunk=new Node("Trunk");
+$trunk->addChild(qw/mammal reptile bird insect fish mollusc miriapod crustacea/);# new takes either a string
+my $testNode=new Node("nematode");
+$trunk->addChild($testNode);                                                     # or a NODE object
+$trunk->drawTree();
+```
+
+print  map {$_." : ".$trunk->{branches}->{$_}->name()."\n"} sort $trunk->children();
+$trunk->deleteChild($trunk->{prefix}.2);
+print map {$_." : ".$trunk->{branches}->{$_}->name()."\n"} sort $trunk->children();
+print "\n";
+$trunk->drawTree();
+$trunk->{branches}->{$trunk->childByName("insect")}->addChild("ant");
+$trunk->groupChildren("exoskeleton",$trunk->childrenByNames(qw/insect miriapod crustacea/));
+print  map {$_." : ".$trunk->{branches}->{$_}->name()."\n"} sort $trunk->children();
+print  map {$_." : ".$trunk->{branches}->{$trunk->{prefix}.9}->{branches}->{$_}->name()."\n"} sort @{$trunk->{branches}->{$trunk->{prefix}.9}->children("#id")};
+
+print "\n";
+print $trunk->childByName("exoskeleton"),"\n";
+
+print "\n";
+$trunk->drawTree("i");
+print "\n";
+$trunk->list();
+print "\n";
+my $str= $trunk->serialise();
+
+print "\n";
+print $str;
+print "\n";
+my $clone=Node->deserialise($str);
+$clone->drawTree("p");
+
+
 
 This one is just another **Experimental** one designed to be easy to reconfigure, serialise, deserialise or view. Another feature is the integration of weighted nodes. Interactive traversal is a goal, with a popularity value applied to nodes to assist this. Traversal is plenned in the future to be diffuse rather than absolute.
 
