@@ -22,7 +22,7 @@ print "\n";
 ok( $op= $trunk->drawTree(),                            'drawTree() works');
 
 ok ($trunk->{branches}->{$trunk->childByName("insect")}->addChild("ant"));
-ok ($trunk->groupChildren("arthropod",$trunk->childrenByNames(qw/insect miriapod crustacea/)), 'groupChildren() works');
+ok ($trunk->group("arthropod",$trunk->childrenByNames(qw/insect miriapod crustacea/)), 'group() works');
 
 print "\n";
 print $trunk->childByName("arthropod"),"\n";
