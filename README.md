@@ -1,6 +1,8 @@
 # Interactive Tree Module
 There are plenty of mature tree modules on MetaCPAN. [Tree::Simple](https://metacpan.org/pod/Tree::Simple) by [Ron Savage](https://github.com/ronsavage) a good robust one to start. [Tree::MultiNode](https://metacpan.org/pod/Tree::MultiNode) by [Todd Rinaldo](https://www.linkedin.com/in/toddrinaldo) and [Tree::DAG_Node](https://metacpan.org/pod/Tree::DAG_Node) established heavyweights.  A good description  of these and many others are provided by Ron Savage in the [pod](https://metacpan.org/pod/Tree::Simple) of his module.
 
+Version-0.01  Early module to develop ideas
+
 ### Synopsis
 ```
 # Node.pm is not on CPAN. It is experimental
@@ -83,4 +85,6 @@ If the tree structure is already known it is perhaps easier to create a Node tre
      
 `deserialise`
 
+## Version
 
+0.01  Very Buggy Initial module to develop ideas for the API.
