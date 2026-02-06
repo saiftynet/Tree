@@ -1,5 +1,6 @@
 use lib "../modules/";
 use Node;
+`chcp 65001` if $^O=~/MS/;
 my $str="
 [Options
   [Material gift
