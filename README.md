@@ -10,8 +10,10 @@ my $trunk=new Node("Trunk");          # or a NODE object
 $trunk->addChild(qw/mammal reptile bird
                  insect fish mollusc miriapod crustacea/);
 my $testNode=new Node("nematode");
-$trunk->addChild($testNode);         # addChild takes strings, arrayor strings ornodes                                                 
-$trunk->drawTree();                  # dray tree draws a tree
+$trunk->addChild($testNode);         # addChild takes strings, arrayor strings ornodes
+$trunk->group("arthropod",$trunk->childrenByNames(qw/insect miriapod crustacea/)
+                                     # groups children and makes them the children of new node                                           
+$trunk->drawTree();                  # drawtree draws a tree (surprise!)
 ```
 
 This one is just another **Experimental** one designed to be easy to reconfigure, serialise, deserialise or view. Another feature is the integration of weighted nodes. Interactive traversal is a goal, with a popularity value applied to nodes to assist this. Traversal is plenned in the future to be diffuse rather than absolute.
@@ -33,7 +35,16 @@ This is a single module, that represents the root, the forks, the leafs in fact 
 ## Methods
 
 `new`
-   
+* Creates a new Node object.  It requires a name; this is either as a string, or an object (like another Node) which has a property called name. e.g
+
+```
+    my $skeleton=Node->new("skeleton");
+    my $skeleton=Node->new({name=>skeleton});
+    my $bones=   Node->new($skeleton);    # oniy the root node is copied into $bones;
+``` 
+If the tree structure is already known it is perhaps easier to create a Node tree using `Node::deserialise` below;
+
+
 `addChild`
    
 `name`
