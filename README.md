@@ -32,7 +32,8 @@ This is a single module, that represents the root, the forks, the leafs in fact 
 * Conversely, a Node can become ungrouped, so that it is deleted but its children appear as children of its parent
 * A Node can be loaded/saved from/to files
 * A Node can be visualised as a tree on the console, as nested lists in HTML, and converted to xml.
-
+* 
+[!image](https://github.com/saiftynet/dummyrepo/blob/main/tree/tree.png?raw=true)
 
 ## Methods
 
