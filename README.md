@@ -46,7 +46,11 @@ If the tree structure is already known it is perhaps easier to create a Node tre
 
 
 `addChild`
-   
+* Add a child node(s).
+
+```
+    $skeleton->addChild("head","trunk","left arm","right arm","left leg","left arm");
+```      
 `name`
    
 `child`
