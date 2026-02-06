@@ -1,6 +1,7 @@
 use lib "../modules/";
 use Test::Simple tests => 5;
 use Node;
+`chcp 65001` if $^O=~/MS/;
 my $op;my $clone;
 my $noname=new Node({name=>"name"});
 ok( defined($noname) && ref $noname eq 'Node',     'new({<node data>}) works' );
