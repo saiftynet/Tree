@@ -1,5 +1,5 @@
 use lib "../modules/";
-use Test::Simple tests => 5;
+use Test::Simple tests => 15;
 use Node;
 `chcp 65001` if $^O=~/MS/;
 my $op;my $clone;
