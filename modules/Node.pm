@@ -109,7 +109,7 @@ package Node;
        @children=@{$children[0]};
      };
      foreach my $cId(@children){ # add each Child to the new node, then delete from old node
-       #die $cId;
+       next unless $self->{branches}->{$cId};
        $newNode->addChild($self->{branches}->{$cId});
        $self->deleteChild($cId)
      }     
@@ -146,6 +146,7 @@ package Node;
      my @children=$self->children("node");
      foreach (0..$#children){
        my $last=$_ == $#children;
+       next unless $children[$_];
        print $ol.($last?"└─":"├─").$children[$_]->text($option);
        if ($children[$_]->children()){
          $children[$_]->drawTree($option,$ol.($last?" ":"│")."  ")
@@ -221,6 +222,4 @@ package Node;
      return $stack[0];
    }   
    
-   
 1;
-
