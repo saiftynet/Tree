@@ -97,4 +97,4 @@ foreach ($temp->children()){
 }
 
 $skeleton->setPaths();
-$skeleton->drawTree("p");
+$skeleton->drawTree("sp");

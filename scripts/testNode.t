@@ -1,5 +1,5 @@
 use lib "../modules/";
-use Test::Simple tests => 15;
+use Test::Simple tests => 16;
 use Node;
 my $op;my $clone;
 my $noname=new Node({name=>"name"});
@@ -43,4 +43,4 @@ ok( ! $clone->ungroup($clone->childByName("arthropod")), 'ungroup() works');;
 print "\n";
 $op= $clone->serialise();
 print "\n";
-
+ok( $op= $clone->drawTree("s"),                            'drawTree("s") works');;
