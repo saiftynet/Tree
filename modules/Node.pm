@@ -150,14 +150,19 @@ package Node;
      if(!$ol){
        print $self->text($option);
        $ol="  ";
+     };
+     `chcp 65001` if $^O =~ /MSWin32/;
+     my $glyphs={L=>"└─",T=>"├─",I=>"│ ",S=>" "};
+     if ($option=~/s/i){
+       $glyphs={L=>"L-",T=>"|-",I=>"| ",S=>"  "};
      }
      my @children=$self->children("node");
      foreach (0..$#children){
        my $last=$_ == $#children;
        next unless $children[$_];
-       print $ol.($last?"└─":"├─").$children[$_]->text($option);
+       print $ol.($last?$glyphs->{L}:$glyphs->{T}).$children[$_]->text($option);
        if ($children[$_]->children()){
-         $children[$_]->drawTree($option,$ol.($last?" ":"│")."  ")
+         $children[$_]->drawTree($option,$ol.($last?$glyphs->{S}:$glyphs->{I})."  ")
        }
      }
     return 1
