@@ -37,7 +37,7 @@ This is a single module, that represents the root, the forks, the leafs in fact 
 
 ## Methods
 
-`new`
+`new Node`
 * Creates a new Node object.  It requires a name; this is either as a string, or an object (like another Node) which has a property called name. e.g
 
 ```
@@ -48,36 +48,44 @@ This is a single module, that represents the root, the forks, the leafs in fact 
 If the tree structure is already known it is perhaps easier to create a Node tree using `Node::deserialise` below;
 
 
-`addChild`
+`$node->addChild(<node or string>)`
 * Add a child node(s).
 
 ```
     $skeleton->addChild("head","trunk","left arm","right arm","left leg","left arm");
 ```      
-`name`
+`$node->name()`
  * get the Name of a node.  Nodes have names, but no test is make sure the names are unique either in the tree or even amongst siblings
 ```
     $skeleton->name();
 ```
 
-`child`
-* the child  node witha given ID or name.  Ids have a structure `[A-Z]\d+`. if the passed parameter does not fit this pattern or if it doesn't exist,
-  children are search by name.
+`$node->child(<id or name>)`
+* the child  node with a given ID or name.  Ids have a structure `[A-Z]\d+`. if the passed parameter does not fit this pattern or if it doesn't exist,
+  children are searched by name.
 ```
   $skeleton->child("left arm")->addChild($temp->child($_));
 ```
 `parameter`
    
-`childByName`
+`$node->childByName(<name>)`
+* Returns the id of the child with a given name, or 0 if not found.
+```
+my $cId=$skeleton->childByName("left arm");
+```
+
+`$node->childrenByName(<list of names>)`
+* given a list of names, return the IDs of children with those names
+
+`$node->hide()`
+* Sets health to zero so the NBde will not appear in searches
+  
+`$node->deleteChild(<childId>)`
+ * Sets the child Node slot to `undef`.  the child is not deleted, but is no longer visible in searches and disappears during `serialise`-`deserialise`;
    
-`childrenByName`
-   
-`hide`
-   
-`deleteChild`
-   
-`children`
-   
+`$node->children(<mode>)`
+* Return a list of Children of a node in one of several modes
+  
 `group`
    
 `ungroup`
