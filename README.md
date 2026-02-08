@@ -55,9 +55,17 @@ If the tree structure is already known it is perhaps easier to create a Node tre
     $skeleton->addChild("head","trunk","left arm","right arm","left leg","left arm");
 ```      
 `name`
-   
+ * get the Name of a node.  Nodes have names, but no test is make sure the names are unique either in the tree or even amongst siblings
+```
+    $skeleton->name();
+```
+
 `child`
-   
+* the child  node witha given ID or name.  Ids have a structure `[A-Z]\d+`. if the passed parameter does not fit this pattern or if it doesn't exist,
+  children are search by name.
+```
+  $skeleton->child("left arm")->addChild($temp->child($_));
+```
 `parameter`
    
 `childByName`
