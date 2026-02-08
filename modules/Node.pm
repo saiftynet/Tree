@@ -42,8 +42,8 @@ package Node;
      if (($keyName=~/^$self->{prefix}(\d+)$/) && exists $self->{branches}->{$keyName}){
        return $self->{branches}->{$keyName}
      }
-     elsif (childByName($keyName)){       
-       return $self->{branches}->{childByName($keyName)}
+     else{       
+       return $self->{branches}->{$self->childByName($keyName)}
      }
    }
    
@@ -89,7 +89,7 @@ package Node;
      my ($self,$mode)=@_;
      $mode//="id";
      return undef unless $self->{branches};
-     my @ret=map {($self->{branches}->{$_} && $self->{branches}->{$_}->{health})?$_:() } sort keys %{$self->{branches}};
+     my @ret=map {($self->{branches}->{$_} && $self->{branches}->{$_}->{health})?$_:() } sortNum (keys %{$self->{branches}});
      return @ret   if $mode eq "id";
      return [@ret] if $mode eq "#id";
      @ret=map{$self->{branches}->{$_}} @ret;
@@ -98,6 +98,14 @@ package Node;
      @ret=map{$_->name()} @ret;
      return @ret if $mode eq "name";
      return [@ret] if $mode eq "#name";
+     
+   }
+   
+   sub sortNum{ #schawartzian transform that sorts keys by numberical suffic
+      return map  { $_->[0] }
+             sort { $a->[1] <=> $b->[1] }
+             map  { [$_, $_=~/(\d+)/] }
+                 @_;
      
    }
    
