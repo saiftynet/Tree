@@ -97,21 +97,36 @@ my $cId=$skeleton->children("node");  # returns the lisit of children as Nodes
 $trunk->group("arthropod",$trunk->childrenByNames(qw/insect miriapod crustacea/))
 ```
 
-### `ungroup`
+### `$node->ungroup(<childId>)`
+* this is the reverses the above: a child of a node is removed with the grandchildren becoming the children of $node; 
+```
+$clone->ungroup($clone->childByName("arthropod"));
+```
+   
+### `$node->list()`
+* TBC
 
-   
-### `list`
-   
-### `drawTree`
-   
-### `text`
-   
+### `$node->text(<options>)`
+* this returns the text with various options:  Options is a string; if it contains "i" includes the id, "p" includes the path from the $node to the  the desecendant, "w" includes the weighting of the node
+    
+### `$node->drawTree(<options>)`
+* this draws a tree on the console.  The options is the same as for `text()`, with the addition of "s" to use ASCII rather than UTF8 characters.  
+```
+$clone->drawTree("s")
+```
+
 ### `setPaths`
+* this adds a parameter {path} to the node and all of descendants, which descrbes the path from the node to each descendant. (i.e. a list of the anxcestors in the order of traversal to get to the descendant.  Often it is automatically done, and not generally needed.
+```
+$clone->setPaths();
+```
    
-`serialis`
-     
-`deserialise`
-
+### `$node->serialise()`
+* this creates a string that can be exported and later restored.  Currently only the names are epxorted, but it is expected that weight, health and other data ill be exportable
+  
+### `Node::deserialise(<string>)`
+* this creates a new node from a serialised string
+  
 ## Version
 
 0.01  Very Buggy Initial module to develop ideas for the API.
