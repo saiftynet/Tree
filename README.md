@@ -82,7 +82,7 @@ my $cId=$skeleton->childByName("left arm");
 * Sets health to zero so the NBde will not appear in searches
   
 ### `$node->deleteChild(<childId>)`
- * Sets the child Node slot to `undef`.  the child is not deleted, but is no longer visible in searches and disappears during `serialise`-`deserialise`;
+ * Sets the child Node slot to `undef`.  the child is not deleted, but replaced with an undef. This it is no longer visible in searches and disappears during `serialise`-`deserialise`, but during th life of the tree, its id remains as a key in its parent node, and is not replaced by new nodes.
    
 ### `$node->children(<mode>)`
 * Return a list of Children of a node in one of several modes. Mode can be "id" - list of IDs (Default if not specified),   "#id" - arrayref of Ids, "name" - list of names, "#name" - arrayref of names, "node" - list of nodes, "#node" - arrayref of nodes.
@@ -122,7 +122,7 @@ $clone->setPaths();
 ```
    
 ### `$node->serialise()`
-* this creates a string that can be exported and later restored.  Currently only the names are epxorted, but it is expected that weight, health and other data ill be exportable
+* this creates a string that can be exported and later restored.  Currently only the names are exported, but it is expected that weight, health and other data ill be exportable
   
 ### `Node::deserialise(<string>)`
 * this creates a new node from a serialised string
