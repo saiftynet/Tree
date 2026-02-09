@@ -115,7 +115,7 @@ $clone->ungroup($clone->childByName("arthropod"));
 $clone->drawTree("s")
 ```
 
-### `setPaths`
+### `$node->setPaths()`
 * this adds a parameter {path} to the node and all of descendants, which descrbes the path from the node to each descendant. (i.e. a list of the anxcestors in the order of traversal to get to the descendant.  Often it is automatically done, and not generally needed.
 ```
 $clone->setPaths();
