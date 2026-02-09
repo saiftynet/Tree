@@ -131,10 +131,10 @@ $clone->setPaths();
 
 0.01  Very Buggy Initial module to develop ideas for the API.
 
-ToDo: Balanced weighting: internal and external routines
-ToDo: HTML and XML outputs
-ToDo: Add interactivity with users
-ToDo: Add interactivity with other scripts
-ToDo: Connect to Word-Cloud generator
-ToDo: Link to other Trees to a make a heterogenous forest
+* ToDo: Balanced weighting: internal and external routines
+* ToDo: HTML and XML outputs
+* ToDo: Add interactivity with users
+* ToDo: Add interactivity with other scripts
+* ToDo: Connect to Word-Cloud generator
+* ToDo: Link to other Trees to a make a heterogenous forest
 
