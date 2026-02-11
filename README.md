@@ -129,7 +129,7 @@ foreach (qw/left right/){
 ### `$node->randomChild(<mode>)`
 This selects a random child of the node if it has children.  "mode" is `id|name|node` allows the method to return the nodeId, name or the node itself.
 
-### `$node-<parent(<root node>)`
+### `$node->parent(<root node>)`
 $nodes do not know their parents directly, but they do know their path.  The parent() method simply truncates the path by onebranch and traverses the root 
 Node (which is why it has to be passsed as a parameter) to get to the parent Node. 
 
