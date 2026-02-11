@@ -118,6 +118,12 @@ $skeleton->target("root->axial->skull->cranium")->addChild(
    "frontal","sphenoid","ethmoid","left parietal","right parietal",
    "left temporal","right temporal","occiptal");
 
+# or it is possible to mix old and new
+foreach (qw/left right/){
+	$skeleton->target("root->axial->skull")->child($_." middle ear")->
+	           addChild(qw/malleus incus stapes/);
+}
+
 ```
   
 ### `$node->randomChild(<mode>)`
