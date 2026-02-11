@@ -157,10 +157,10 @@ Unlike Tree::Simple and other tree modules, circular references can not be used 
 
 ## Version
 0.02 
-colourise the outputs of drawTree()
-add target() method to traverse 'down' a tree using either ids or names
-add random child
-add parent()
+* colourise the outputs of drawTree()
+* add target() method to traverse 'down' a tree using either ids or names
+* add random child
+* add parent()
 
 0.01  Very Buggy Initial module to develop ideas for the API.
 
