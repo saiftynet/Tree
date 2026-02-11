@@ -1,7 +1,27 @@
 package Node;
    use strict; use warnings;   
    
-   our $VERSION="0.01";
+   our $VERSION="0.02";
+   
+   our $glyphs={
+      utf8 =>{L=>"└─",T=>"├─",I=>"│ ",S=>" "},
+      ascii=>{L=>"L-",T=>"|-",I=>"| ",S=>"  "},
+     };
+   our $colours={black   =>30,red   =>31,green   =>32,yellow   =>33,
+                 blue   =>34,magenta   =>35,cyan  =>36,white   =>37,
+                 on_black=>40,on_red=>41,on_green=>42,on_yellow=>43,
+                 on_blue=>44,on_magenta=>4,on_cyan=>46,on_white=>47,
+                 reset=>0, bold=>1, italic=>3, underline=>4, blink=>5,
+                 strikethrough=>9, invert=>7, bright=>1, overline=>53};
+   
+   our $formats={
+     root=>"\033[$colours->{red}m",
+     group=>"\033[$colours->{cyan}m",
+     leaf=>"\033[$colours->{yellow}m",
+     end=>"\033[$colours->{reset}m",
+     select=>"\033[$colours->{invert}m",
+     
+   };
    
    sub new{
      my ($class,$data)=@_;
@@ -152,26 +172,61 @@ package Node;
        $ol="  ";
      };
      `chcp 65001` if $^O =~ /MSWin32/;
-     my $glyphs={L=>"└─",T=>"├─",I=>"│ ",S=>" "};
-     if ($option=~/s/i){
-       $glyphs={L=>"L-",T=>"|-",I=>"| ",S=>"  "};
+     my $gl=$glyphs->{utf8};
+     if ($option && $option=~/s/i){
+        $gl=$glyphs->{ascii};
      }
      my @children=$self->children("node");
      foreach (0..$#children){
        my $last=$_ == $#children;
        next unless $children[$_];
-       print $ol.($last?$glyphs->{L}:$glyphs->{T}).$children[$_]->text($option);
+       print $ol.($last?$gl->{L}:$gl->{T}).$children[$_]->text($option);
        if ($children[$_]->children()){
-         $children[$_]->drawTree($option,$ol.($last?$glyphs->{S}:$glyphs->{I})."  ")
+         $children[$_]->drawTree($option,$ol.($last?$gl->{S}:$gl->{I})."  ")
        }
      }
     return 1
    }
    
+   sub target{
+     my ($self,$path)=@_;
+     my @p=split("->",$path);
+     shift @p;
+     my $ret=$self;;
+     foreach (@p){
+       $ret=$ret->child($_);
+     }
+     return $ret;
+   }
+   
+   sub parent{
+     my ($self,$trunk)=@_;
+     my $path=$self->{path};
+     $path=~s/->[^>]+$//;
+     return $trunk->target($path);
+   }
+   
+   sub randomChild{
+     my ($self,$option)=@_;
+     my @children=$self->children($option);
+     return $children[rand()*(scalar @children)];
+   }
+   
    sub text{
      my ($self,$option)=@_;
      $option//="";
-     return $self->name().
+     my $dec=$self->name();
+     if (!$self->{id}){
+       $dec=$formats->{root}.$dec.$formats->{end}
+     }
+     elsif($self->children()){
+       $dec=$formats->{group}.$dec.$formats->{end}
+     }
+     else{
+       $dec=$formats->{leaf}.$dec.$formats->{end}
+     }
+     
+     return $dec.
              ($option=~/w/i? "($self->{weight})":"").
              ($option=~/p/i? "<$self->{path}>":"").
              ($option=~/i/i? "[$self->{id}]":"")."\n";
