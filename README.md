@@ -3,7 +3,7 @@ There are plenty of mature tree modules on MetaCPAN. [Tree::Simple](https://meta
 
 Current Version-0.01  Early module to develop ideas
 
-### Synopsis
+## Synopsis
 ```
 # Node.pm is not on CPAN. It is experimental
 use Node;      
@@ -17,6 +17,9 @@ $trunk->group("arthropod",$trunk->childrenByNames(qw/insect miriapod crustacea/)
                                      # groups children and makes them the children of new node                                           
 $trunk->drawTree();                  # drawtree draws a tree (surprise!)
 ```
+
+
+## Description
 
 This one is just another **Experimental** one designed to be easy to reconfigure, serialise, deserialise or view. Another feature is the integration of weighted nodes. Interactive traversal is a goal, with a popularity value applied to nodes to assist this. Traversal is plenned in the future to be diffuse rather than absolute.
 
@@ -116,7 +119,7 @@ $clone->drawTree("s")
 ```
 
 ### `$node->setPaths()`
-* this adds a parameter {path} to the node and all of descendants, which descrbes the path from the node to each descendant. (i.e. a list of the anxcestors in the order of traversal to get to the descendant.  Often it is automatically done, and not generally needed.
+* This adds a parameter {path} to the node and all of descendants, which descrbes the path from the node to each descendant. (i.e. a list of the anxcestors in the order of traversal to get to the descendant. Sometimes it is automatically done, but often (e.g. when Nodes with children are added as children, this requires to be explicitly called).  A Node does not otherwise know its ancestors and there are no explicit links to a Nodes parent, for example.  This can be a problem.  
 ```
 $clone->setPaths();
 ```
@@ -127,6 +130,10 @@ $clone->setPaths();
 ### `Node::deserialise(<string>)`
 * this creates a new node from a serialised string
   
+## Comments
+Unlike Tree::Simple and other tree modules, circular references can not be used in this module presently
+
+
 ## Version
 
 0.01  Very Buggy Initial module to develop ideas for the API.
