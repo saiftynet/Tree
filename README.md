@@ -1,7 +1,7 @@
 # Interactive Tree Module
 There are plenty of mature tree modules on MetaCPAN. [Tree::Simple](https://metacpan.org/pod/Tree::Simple) by [Ron Savage](https://github.com/ronsavage) a good robust one to start. [Tree::MultiNode](https://metacpan.org/pod/Tree::MultiNode) by [Todd Rinaldo](https://www.linkedin.com/in/toddrinaldo) and [Tree::DAG_Node](https://metacpan.org/pod/Tree::DAG_Node) are established heavyweights.  A good description  of these and many others are provided by Ron Savage in the [pod](https://metacpan.org/pod/Tree::Simple) of his module.
 
-Current [Version](https://github.com/saiftynet/Tree/blob/main/README.md#version)-0.01  Early module to develop ideas
+Current [Version](https://github.com/saiftynet/Tree/blob/main/README.md#version)-0.02 methods to traverse, find parent, and select randomChild, and colourise the outputs
 
 ## Synopsis
 ```
@@ -105,7 +105,28 @@ $trunk->group("arthropod",$trunk->childrenByNames(qw/insect miriapod crustacea/)
 ```
 $clone->ungroup($clone->childByName("arthropod"));
 ```
-   
+
+### `$node->target(<path to target node>);`
+* This method allows traversal down a tree using either ids or names to a descendant node.  The path is a string composed of ids or names of nodes, separatedby `'->'`.
+(added in version 0.02)
+```
+# old method used to to daisy-chain nodes to get to descendants e.g.
+$skeleton->child("axial")->child("skull")->addChild("cranium","facial bones",
+                           "left middle ear","right middle ear");
+# target method can do this
+$skeleton->target("root->axial->skull->cranium")->addChild(
+   "frontal","sphenoid","ethmoid","left parietal","right parietal",
+   "left temporal","right temporal","occiptal");
+
+```
+  
+### `$node->randomChild(<mode>)`
+This selects a random child of the node if it has children.  "mode" is `id|name|node` allows the method to return the nodeId, name or the node itself.
+
+### `$node-<parent(<root node>)`
+$nodes do not know their parents directly, but they do know their path.  The parent() method simply truncates the path by onebranch and traverses the root 
+Node (which is why it has to be passsed as a parameter) to get to the parent Node. 
+
 ### `$node->list()`
 * TBC
 
@@ -135,6 +156,11 @@ Unlike Tree::Simple and other tree modules, circular references can not be used 
 
 
 ## Version
+0.02 
+colourise the outputs of drawTree()
+add target() method to traverse 'down' a tree using either ids or names
+add random child
+add parent()
 
 0.01  Very Buggy Initial module to develop ideas for the API.
 
