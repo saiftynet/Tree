@@ -1,7 +1,7 @@
 # Interactive Tree Module
 There are plenty of mature tree modules on MetaCPAN. [Tree::Simple](https://metacpan.org/pod/Tree::Simple) by [Ron Savage](https://github.com/ronsavage) a good robust one to start. [Tree::MultiNode](https://metacpan.org/pod/Tree::MultiNode) by [Todd Rinaldo](https://www.linkedin.com/in/toddrinaldo) and [Tree::DAG_Node](https://metacpan.org/pod/Tree::DAG_Node) are established heavyweights.  A good description  of these and many others are provided by Ron Savage in the [pod](https://metacpan.org/pod/Tree::Simple) of his module.
 
-Current [Version](https://github.com/saiftynet/Tree/blob/main/README.md#version)-0.02 methods to traverse, find parent, and select randomChild, and colourise the outputs
+Current [Version](https://github.com/saiftynet/Tree/blob/main/README.md#version)-0.03 sensible defaults for colouring  and using UTF8
 
 ## Synopsis
 ```
@@ -162,6 +162,12 @@ Unlike Tree::Simple and other tree modules, circular references can not be used 
 
 
 ## Version
+0.03
+* Sensible defaults for drawTree() (ASCII by default, UTF8 as option, monochrome by default, colour as an option)
+* restructure terminal drawing methods
+* drawTree() outputs a string rather than printing to screen to allow post processing for interaction module etc
+* consider adding nextSibling/previosSibling although this works against the paradigm of this module
+
 0.02 
 * colourise the outputs of drawTree()
 * add target() method to traverse 'down' a tree using either ids or names
