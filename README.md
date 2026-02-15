@@ -140,7 +140,7 @@ Node (which is why it has to be passsed as a parameter) to get to the parent Nod
 * this returns the text with various options:  Options is a string; if it contains "i" includes the id, "p" includes the path from the $node to the  the desecendant, "w" includes the weighting of the node
     
 ### `$node->drawTree(<options>)`
-* this draws a tree on the console.  The options is the same as for `text()`, with the addition of "s" to use ASCII rather than UTF8 characters.  
+* this draws a tree on the console.  The options is the same as for `text()`, with the addition of "u" to use prettier UTF8 rather than ASCII characters.  
 ```
 $clone->drawTree("s")
 ```
