@@ -129,5 +129,4 @@ foreach (qw/left right/){
 	$skeleton->target("root->axial->skull")->child($_." middle ear")->
 	           addChild(qw/malleus incus stapes/);
 }
-$skeleton->setPaths();
-$skeleton->drawTree("i");
+print $skeleton->drawTree("cui");

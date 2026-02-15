@@ -1,5 +1,6 @@
 use lib "../modules/";
-use Test::Simple tests => 16;
+use strict; use warnings;
+use Test::Simple tests => 19;
 use Node;
 my $op;my $clone;
 my $noname=new Node({name=>"name"});
@@ -19,7 +20,7 @@ ok( scalar $trunk->children() eq 8,                'deleteChild(NODE) works' );
 
 
 print "\n";
-ok( $op= $trunk->drawTree(),                            'drawTree() works');
+ok( print $trunk->drawTree(),                            'drawTree() works');
 
 ok ($trunk->{branches}->{$trunk->childByName("insect")}->addChild("ant"));
 ok ($trunk->group("arthropod",$trunk->childrenByNames(qw/insect miriapod crustacea/)), 'group() works');
@@ -28,19 +29,29 @@ print "\n";
 print $trunk->childByName("arthropod"),"\n";
 
 print "\n";
-ok( $op= $trunk->drawTree("i"),                            'drawTree("i") works');
+ok( print $trunk->drawTree("i"),                            'drawTree("i") works');
 print "\n";
-ok(! $trunk->list(),                            'list() works');;
+ok(! $trunk->list(),                            'list() works');
 print "\n";
 ok( $op= $trunk->serialise(),                            'serialise() works');
 print "\n";
 print $op;
 print "\n";
-ok( $clone=Node::deserialise($op),                            'deserialise() works');;
-ok( $op= $clone->drawTree("p"),                            'drawTree("p") works');;
+ok( $clone=Node::deserialise($op),                            'deserialise() works');
+ok( print $clone->drawTree("p"),                            'drawTree("p") works');
 print "\n";
-ok( ! $clone->ungroup($clone->childByName("arthropod")), 'ungroup() works');;
+ok( ! $clone->ungroup($clone->childByName("arthropod")), 'ungroup() works');
+$clone->setPaths();
 print "\n";
 $op= $clone->serialise();
 print "\n";
-ok( $op= $clone->drawTree("s"),                            'drawTree("s") works');;
+ok( print $clone->drawTree("uc"),                            'drawTree("u") works');
+print "\n";
+ok( $clone->randomChild("node")->name(),             'randomChild works');
+print "\n";
+my $ranChild= $clone->randomChild("node");
+my $path=$ranChild->{path};
+print $ranChild->name()," - ",$ranChild->{path},"\n";
+print $clone->target($path)->name(),"\n";
+ok ($ranChild->name() eq $clone->target($path)->name(), 'target works');
+ok ($clone->target($path)->parent($clone)->name() eq $clone->name(), 'parent works');
