@@ -1,27 +1,35 @@
 package Node;
    use strict; use warnings;   
    
-   our $VERSION="0.02";
+   our $VERSION="0.03";
    
    our $glyphs={
-      utf8 =>{L=>"└─",T=>"├─",I=>"│ ",S=>" "},
+      utf8 =>{L=>"└─",T=>"├─",I=>"│ ",S=>" " },
       ascii=>{L=>"L-",T=>"|-",I=>"| ",S=>"  "},
-     };
-   our $colours={black   =>30,red   =>31,green   =>32,yellow   =>33,
-                 blue   =>34,magenta   =>35,cyan  =>36,white   =>37,
-                 on_black=>40,on_red=>41,on_green=>42,on_yellow=>43,
-                 on_blue=>44,on_magenta=>4,on_cyan=>46,on_white=>47,
-                 reset=>0, bold=>1, italic=>3, underline=>4, blink=>5,
-                 strikethrough=>9, invert=>7, bright=>1, overline=>53};
+   };
+     
+   our $colours={black   =>30,red     =>31,  green   =>32,yellow   =>33,
+                 blue    =>34,magenta =>35,  cyan    =>36,white    =>37,
+                 on_black=>40,on_red  =>41,on_green  =>42,on_yellow=>43,
+                 on_blue =>44,on_magenta=>4,on_cyan  =>46,on_white =>47,
+                 reset   =>0, bold=>1, italic=>3, underline=>4,blink=>5,
+                 strikethrough=>9, invert=>7, bright =>1, overline =>53};
    
    our $formats={
-     root=>"\033[$colours->{red}m",
-     group=>"\033[$colours->{cyan}m",
-     leaf=>"\033[$colours->{yellow}m",
-     end=>"\033[$colours->{reset}m",
-     select=>"\033[$colours->{invert}m",
-     
+     root=>"red on_white",
+     group=>"cyan",
+     leaf=>"yellow",
+     select=>"invert",
+     none=>"",
    };
+   
+   our $printOuts;
+   
+   sub colour{
+	   my ($string,$colour)=@_;
+	   return $string unless $colour;
+	   return "\033[".join(";",map{$colours->{$_}}(split /\s+/,$colour))."m".$string."\033[$colours->{reset}m";
+   }
    
    sub new{
      my ($class,$data)=@_;
@@ -34,6 +42,7 @@ package Node;
        id=>"", 
        health=>(ref $data && $data->{health})?$data->{health}:1.0,
        weight=>(ref $data && $data->{weight})?$data->{weight}:1.0,
+       view=>{},
        prefix=>("A".."Z")[rand()*26],   # for any children to this node
      };
      bless $self,$class;
@@ -167,25 +176,34 @@ package Node;
    
    sub drawTree{
      my ($self,$option,$ol)=@_;
+     $option//="";
      if(!$ol){
-       print $self->text($option);
+       $self->setPaths();
+       $printOuts= " + ".$self->text($option);
        $ol="  ";
      };
      `chcp 65001` if $^O =~ /MSWin32/;
-     my $gl=$glyphs->{utf8};
-     if ($option && $option=~/s/i){
-        $gl=$glyphs->{ascii};
+     my $gl=$glyphs->{ascii};
+     if ($option=~/u/i){
+        $gl=$glyphs->{utf8};
      }
      my @children=$self->children("node");
+     
      foreach (0..$#children){
        my $last=$_ == $#children;
-       next unless $children[$_];
-       print $ol.($last?$gl->{L}:$gl->{T}).$children[$_]->text($option);
-       if ($children[$_]->children()){
-         $children[$_]->drawTree($option,$ol.($last?$gl->{S}:$gl->{I})."  ")
+       my $kid=$children[$_];
+       next unless $kid;  # exclude childen that are undef;
+       $printOuts.= colour($ol.($last?$gl->{L}:$gl->{T}),$option=~/c/i?"green":"").$kid->icon().$kid->text($option);
+       if ($kid->children()){
+         $kid->drawTree($option,$ol.($last?$gl->{S}:$gl->{I})."  ")
        }
      }
-    return 1
+    return $printOuts;
+   }
+   
+   sub icon{
+	   my $self=shift;
+	   return $self->{view}->{type} eq "leaf"?"":" + ";
    }
    
    sub target{
@@ -212,20 +230,16 @@ package Node;
      return $children[rand()*(scalar @children)];
    }
    
+   sub nextSibling{
+	   my ($self,$trunk)=@_;
+	   my $parent=$self->($trunk);
+	   my $siblings=$parent->children();
+   }
+   
    sub text{
      my ($self,$option)=@_;
      $option//="";
-     my $dec=$self->name();
-     if (!$self->{id}){
-       $dec=$formats->{root}.$dec.$formats->{end}
-     }
-     elsif($self->children()){
-       $dec=$formats->{group}.$dec.$formats->{end}
-     }
-     else{
-       $dec=$formats->{leaf}.$dec.$formats->{end}
-     }
-     
+     my $dec=colour($self->name(),($option=~/c/i?$formats->{$self->{view}->{type}}:""));
      return $dec.
              ($option=~/w/i? "($self->{weight})":"").
              ($option=~/p/i? "<$self->{path}>":"").
@@ -234,15 +248,24 @@ package Node;
    
    sub setPaths{
      my ($self,$parentPath)=@_;
-     $parentPath//="";
-     my $path=$parentPath?$parentPath."->".$self->{id}:"root";
-     $self->{path}=$path;
-     my @children=$self->children("node");
+     my $path;
+     if (!$parentPath){
+		 $self->{path}="root";
+		 $self->{view}->{type}="root";
+	 }
+	 else{
+		 $self->{path}=$parentPath."->".$self->{id};
+		 $self->{view}->{type}="leaf";
+	 }
+     my @children=$self->children("node"); my $kidsFound=0;
      foreach (@children){
-       $_->setPaths($path) if $_;
-     };
+		if($_){
+		   $_->setPaths($self->{path});
+		   $kidsFound=1;
+	   }
+	 };
+	 $self->{view}->{type}="group" if $kidsFound && $self->{path} ne "root"; ;
    }
-   
    
    sub serialise{
      my ($self,$indent)=@_;
