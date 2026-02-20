@@ -1,7 +1,7 @@
 package Node;
    use strict; use warnings;   
    
-   our $VERSION="0.03";
+   our $VERSION="0.04";
    
    our $glyphs={
       utf8 =>{L=>"└─",T=>"├─",I=>"│ ",S=>" " },
@@ -201,9 +201,57 @@ package Node;
     return $printOuts;
    }
    
+   sub html{
+	   my ($self,$options,$indent) =@_;
+	   $options//="";
+	   my $wrap=0;
+	   if (!$indent){
+	     $indent=1;
+		 $wrap=1;  
+	   }
+	   if ($options=~/d/){
+		   return ("  "x$indent)."<div style=\"padding-left:2em;font-size:".($wrap?"4em":"0.9em")."\" >".$self->name().
+	       $self->htmlChildren($options,$indent++).
+	       "</div>\n";
+		   
+	   }
+	   else {
+		   return ($wrap?"<ul>\n":"").("  "x$indent)."<li>".$self->name().
+	       $self->htmlChildren($options,$indent++).
+	       "</li>\n".($wrap?"</ul>":"");
+	   }
+   }
+   
+   sub htmlChildren{
+	   my ($self,$options,$indent) = @_;
+	   my @children=$self->children("node");
+	   my $hadKids=0;
+	   my $kids="";
+	   $indent++;
+	   foreach (@children){
+		   if ($_){
+			 $kids.=$_->html($options, ++$indent);
+			 $indent--;
+			 $hadKids=1;
+		   }
+     }
+	   if ($options=~/d/){
+		   
+		   return $hadKids?"\n".$kids.("  "x --$indent):"";
+	   }
+	   else {
+          return $hadKids?"\n".("  "x $indent--)."<ul>\n".$kids.("  "x ++$indent)."</ul>\n".("  "x--$indent):"";
+	  }
+   }
+   
+   sub embedData{
+	   my ($self,$options) = @_;
+   }
+   
+     
    sub icon{
 	   my $self=shift;
-	   return $self->{view}->{type} eq "leaf"?"":" + ";
+	    return $self->{view}->{type} eq "leaf"?"":$self->{view}->{open}?" - ":" + ";
    }
    
    sub target{
