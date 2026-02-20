@@ -1,6 +1,6 @@
 use lib "../modules/";
 use strict; use warnings;
-use Test::Simple tests => 19;
+use Test::Simple tests => 20;
 use Node;
 my $op;my $clone;
 my $noname=new Node({name=>"name"});
@@ -55,3 +55,4 @@ print $ranChild->name()," - ",$ranChild->{path},"\n";
 print $clone->target($path)->name(),"\n";
 ok ($ranChild->name() eq $clone->target($path)->name(), 'target works');
 ok ($clone->target($path)->parent($clone)->name() eq $clone->name(), 'parent works');
+ok (print $clone->html("d"),                             'html("d") works ');
